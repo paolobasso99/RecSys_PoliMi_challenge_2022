@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "recsys_polimi_challenge_2020"
 version = "0.1.0"
-description = "2022 challenge of the Recomender Systems course at Politecnico di Milano"
+description = "2022 challenge of the Recommender Systems course at Politecnico di Milano"
 authors = ["Paolo Basso <bassopaolo99@gmail.com>"]
 license = "MIT"
 
@@ -12,6 +12,8 @@ scipy = "^1.9.3"
 pandas = "^1.5.1"
 matplotlib = "^3.6.1"
 sklearn = "^0.0"
+cython = "^0.29.32"
+ipykernel = "^6.17.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.10.0"

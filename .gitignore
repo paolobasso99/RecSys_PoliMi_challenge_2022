@@ -1,3 +1,7 @@
-data/*
+Data/*
 RecSys_Course_AT_PoliMi
 .venv
+Output/*
+!.gitkeep
+__pycache__
+result_experiments
