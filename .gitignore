@@ -1,7 +1,30 @@
+# Working folders
 Data/*
-RecSys_Course_AT_PoliMi
-.venv
 Output/*
-!.gitkeep
-__pycache__
 result_experiments
+
+# Keep .gitkeep files (used for empty folders)
+!.gitkeep
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Env
+.venv
+
+# Ignore cython compiled files
+**/Cython/*.pyd
+**/Cython/*.so
+**/Cython/*.html
+**/Cython/*.c
+**/Cython/build/*
+**/Cython_examples/*.pyd
+**/Cython_examples/*.so
+**/Cython_examples/*.html
+**/Cython_examples/*.c
+**/Cython_examples/build/*
