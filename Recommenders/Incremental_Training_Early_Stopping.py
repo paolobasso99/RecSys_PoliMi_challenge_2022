@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 
 from Recommenders.BaseTempFolder import BaseTempFolder
-from Utils.seconds_to_biggest_unit import seconds_to_biggest_unit
+from utils.seconds_to_biggest_unit import seconds_to_biggest_unit
 
 
 class Incremental_Training_Early_Stopping(object):

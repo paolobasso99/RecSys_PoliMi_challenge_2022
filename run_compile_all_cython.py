@@ -7,7 +7,7 @@ Created on 30/03/2019
 """
 
 import sys, glob, traceback, os
-from CythonCompiler.run_compile_subprocess import run_compile_subprocess
+from cython_compiler.run_compile_subprocess import run_compile_subprocess
 
 
 if __name__ == '__main__':

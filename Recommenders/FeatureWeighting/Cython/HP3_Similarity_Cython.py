@@ -11,7 +11,7 @@ from Recommenders.BaseSimilarityMatrixRecommender import BaseItemSimilarityMatri
 from Recommenders.Incremental_Training_Early_Stopping import Incremental_Training_Early_Stopping
 from Recommenders.Recommender_utils import check_matrix
 from Recommenders.DataIO import DataIO
-from CythonCompiler.run_compile_subprocess import run_compile_subprocess
+from cython_compiler.run_compile_subprocess import run_compile_subprocess
 
 import time, sys
 import numpy as np

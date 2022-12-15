@@ -16,7 +16,7 @@ Created on 07/09/17
 #defining NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 
 from Recommenders.Recommender_utils import check_matrix
-from Utils.seconds_to_biggest_unit import seconds_to_biggest_unit
+from utils.seconds_to_biggest_unit import seconds_to_biggest_unit
 
 import cython
 

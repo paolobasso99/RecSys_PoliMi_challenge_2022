@@ -7,7 +7,7 @@ Created on 14/06/18
 """
 
 from Recommenders.BaseMatrixFactorizationRecommender import BaseMatrixFactorizationRecommender
-from Utils.seconds_to_biggest_unit import seconds_to_biggest_unit
+from utils.seconds_to_biggest_unit import seconds_to_biggest_unit
 from sklearn.decomposition import NMF
 import time
 

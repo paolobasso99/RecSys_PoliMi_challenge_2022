@@ -1,6 +1,5 @@
 # Working folders
-Data/*
-Output/*
+submissions
 result_experiments
 
 # Keep .gitkeep files (used for empty folders)
