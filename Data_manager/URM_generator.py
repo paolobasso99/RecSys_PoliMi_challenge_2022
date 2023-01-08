@@ -18,7 +18,7 @@ class URMGenerator(object):
         self.n_users = users_id.shape[0]
         self.n_items = items_id.shape[0]
 
-    def _geneate_explicit_split_URM(self, dataset: pd.DataFrame, alpha = 0.1, details_weight = 0.1) -> sps.coo_matrix:
+    def _generate_explicit_split_URM(self, dataset: pd.DataFrame, alpha = 0.1, details_weight = 0.1) -> sps.coo_matrix:
         dataset["views_ratings"] = dataset["views_count"] / (
             dataset["views_count"] + alpha * dataset["length"]
         )
@@ -44,8 +44,8 @@ class URMGenerator(object):
         if details_weight < 0 or details_weight > 1:
             raise ValueError("URM_generator (generate_URM): details_weight must be in [0,1]")
 
-        URM_train = self._geneate_explicit_split_URM(self.dataset_training, alpha, details_weight)
-        URM_val = self._geneate_explicit_split_URM(self.dataset_val, alpha, details_weight)
+        URM_train = self._generate_explicit_split_URM(self.dataset_training, alpha, details_weight)
+        URM_val = self._generate_explicit_split_URM(self.dataset_val, alpha, details_weight)
 
         return URM_train, URM_val
 
