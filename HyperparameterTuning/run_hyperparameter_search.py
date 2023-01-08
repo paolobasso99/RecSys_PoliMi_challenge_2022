@@ -36,6 +36,7 @@ from Recommenders.MatrixFactorization.PureSVDRecommender import (
     PureSVDItemRecommender,
 )
 from Recommenders.MatrixFactorization.IALSRecommender import IALSRecommender
+from Recommenders.MatrixFactorization.IALSRecommenderImplicit import IALSRecommenderImplicit
 from Recommenders.MatrixFactorization.NMFRecommender import NMFRecommender
 from Recommenders.MatrixFactorization.Cython.MatrixFactorization_Cython import (
     MatrixFactorization_BPR_Cython,
@@ -464,7 +465,7 @@ def run_KNNRecommender_on_similarity_type(
     original_hyperparameter_search_space = hyperparameter_search_space
 
     hyperparameters_range_dictionary = {
-        "topK": Integer(500, 2000),
+        "topK": Integer(5, 1000),
         "shrink": Integer(0, 1000),
         "similarity": Categorical([similarity_type]),
         "normalize": Categorical([True, False]),
@@ -849,7 +850,7 @@ def runHyperparameterSearch_Collaborative(
         if recommender_class is P3alphaRecommender:
 
             hyperparameters_range_dictionary = {
-                "topK": Integer(100, 2000),
+                "topK": Integer(5, 2000),
                 "alpha": Real(low=0, high=2, prior="uniform"),
                 "normalize_similarity": Categorical([True, False]),
             }
@@ -867,7 +868,7 @@ def runHyperparameterSearch_Collaborative(
         if recommender_class is RP3betaRecommender:
 
             hyperparameters_range_dictionary = {
-                "topK": Integer(5, 1000),
+                "topK": Integer(5, 2000),
                 "alpha": Real(low=0, high=2, prior="uniform"),
                 "beta": Real(low=0, high=2, prior="uniform"),
                 "normalize_similarity": Categorical([True, False]),
@@ -962,6 +963,26 @@ def runHyperparameterSearch_Collaborative(
                 CONSTRUCTOR_KEYWORD_ARGS={},
                 FIT_POSITIONAL_ARGS=[],
                 FIT_KEYWORD_ARGS={"positive_threshold_BPR": None},
+                EARLYSTOPPING_KEYWORD_ARGS=earlystopping_keywargs,
+            )
+        
+        ##########################################################################################################
+
+        if recommender_class is IALSRecommenderImplicit:
+
+            hyperparameters_range_dictionary = {
+                "num_factors": Integer(1, 200),
+                "epochs": Categorical([200]),
+                "alpha": Real(low=1e-3, high=50.0, prior="log-uniform"),
+                "epsilon": Real(low=1e-3, high=10.0, prior="log-uniform"),
+                "reg": Real(low=1e-5, high=1e-2, prior="log-uniform"),
+            }
+
+            recommender_input_args = SearchInputRecommenderArgs(
+                CONSTRUCTOR_POSITIONAL_ARGS=[URM_train],
+                CONSTRUCTOR_KEYWORD_ARGS={},
+                FIT_POSITIONAL_ARGS=[],
+                FIT_KEYWORD_ARGS={},
                 EARLYSTOPPING_KEYWORD_ARGS=earlystopping_keywargs,
             )
 

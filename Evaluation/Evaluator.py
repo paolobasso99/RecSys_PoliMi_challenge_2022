@@ -637,3 +637,7 @@ class EvaluatorHoldout(Evaluator):
             )
 
         return results_dict
+
+class EvaluatorFromDataset():
+    def __init__(self, df_val):
+        self.df_val = df_val
