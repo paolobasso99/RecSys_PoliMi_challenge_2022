@@ -14,7 +14,7 @@ from functools import partial
 from data_manager import DatasetLoader, DatasetSplitter, URMGenerator
 from evaluation.evaluator import EvaluatorHoldout
 
-from HyperparameterTuning.run_hyperparameter_search import runHyperparameterSearch_Collaborative, runHyperparameterSearch_Content, runHyperparameterSearch_Hybrid
+from HyperparameterTuning.run_hyperparameter_search import runHyperparameterSearch_Collaborative
 
 
 def read_data_split_and_search():

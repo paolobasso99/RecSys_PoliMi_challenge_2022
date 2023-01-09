@@ -8,7 +8,7 @@ readme = "README.md"
 packages = [{include = "recsys_polimi_challenge_2020"}]
 
 [tool.poetry.dependencies]
-python = "3.8.10"
+python = "~3.8.10"
 numpy = "^1.23.5"
 scipy = "^1.9.3"
 pandas = "^1.5.2"
