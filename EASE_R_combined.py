@@ -13,6 +13,7 @@ from Recommenders.EASE_R.EASE_R_Recommender import (
 from skopt.space import Real, Integer, Categorical
 from HyperparameterTuning.SearchBayesianSkopt import SearchBayesianSkopt
 from HyperparameterTuning.SearchAbstractClass import SearchInputRecommenderArgs
+from Recommenders.DataIO import DataIO
 
 if __name__ == "__main__":
     # Random seed for reproducibility
@@ -25,14 +26,14 @@ if __name__ == "__main__":
     dataset_splitter = DatasetSplitter(dataset_loader)
     dataset_train, dataset_val = dataset_splitter.load_train_val()
     URM_generator = URMGenerator(dataset_train, dataset_val)
-    URM_train, URM_val = URM_generator.generate_explicit_URM(log_base=17, views_weight=1, details_weight=1)
+    URM_train, URM_val = URM_generator.generate_explicit_URM(log_base=4, views_weight=1, details_weight=0.8)
     URM_all = URM_train + URM_val
 
     evaluator = EvaluatorHoldout(URM_val, cutoff_list=[10])
     
-    output_folder_path = "result_experiments/EASE_R_Recommender2/"
+    output_folder_path = "result_experiments/EASE_R_Recommender4/"
     recommender_class = EASE_R_Recommender
-    n_cases = 10
+    n_cases = 30
     n_random_starts = int(n_cases * 0.3)
     metric_to_optimize = "MAP"
     cutoff_to_optimize = 10
@@ -63,14 +64,31 @@ if __name__ == "__main__":
         EARLYSTOPPING_KEYWORD_ARGS={},
     )
 
-    hyperparameter_search.search(
-        recommender_input_args,
-        hyperparameter_search_space=hyperparameters_range_dictionary,
-        n_cases=n_cases,
-        n_random_starts=n_random_starts,
-        save_model="best",
-        output_folder_path=output_folder_path,  # Where to save the results
-        output_file_name_root=recommender_class.RECOMMENDER_NAME,  # How to call the files
-        metric_to_optimize=metric_to_optimize,
-        cutoff_to_optimize=cutoff_to_optimize,
+    if True:
+        hyperparameter_search.search(
+            recommender_input_args,
+            hyperparameter_search_space=hyperparameters_range_dictionary,
+            n_cases=n_cases,
+            n_random_starts=n_random_starts,
+            save_model="best",
+            output_folder_path=output_folder_path,  # Where to save the results
+            output_file_name_root=recommender_class.RECOMMENDER_NAME,  # How to call the files
+            metric_to_optimize=metric_to_optimize,
+            cutoff_to_optimize=cutoff_to_optimize,
+        )
+
+    data_loader = DataIO(folder_path=output_folder_path)
+    search_metadata = data_loader.load_data(
+        recommender_class.RECOMMENDER_NAME + "_metadata.zip"
+    )
+
+    best_hyperparameters = search_metadata["hyperparameters_best"]
+    print("best_param", best_hyperparameters)
+    
+    recommender = recommender_class(URM_train + URM_val)
+    recommender.fit(**best_hyperparameters)
+    recommender.save_model(
+        folder_path=output_folder_path,
+        file_name=recommender_class.RECOMMENDER_NAME
+        + "_best_model_trained_on_everything.zip",
     )
