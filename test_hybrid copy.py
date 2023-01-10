@@ -89,11 +89,6 @@ class Hybrid(BaseRecommender):
             + item_weights_5 * self.weights["ease_r"]
         )
 
-        for i, user_id in enumerate(user_id_array):
-            relevant_items = self.URM_train.indices[self.URM_train.indptr[user_id]:self.URM_train.indptr[user_id + 1]]
-            if len(relevant_items) < 1:
-                item_weights[i] = item_weights_4
-
         return item_weights
 
 

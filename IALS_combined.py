@@ -7,8 +7,8 @@ import scipy.sparse as sps
 
 from data_manager import DatasetLoader, DatasetSplitter, URMGenerator
 from evaluation.evaluator import EvaluatorHoldout
-from Recommenders.EASE_R.EASE_R_Recommender import (
-    EASE_R_Recommender,
+from Recommenders.MatrixFactorization.IALSRecommenderImplicit import (
+    IALSRecommenderImplicit,
 )
 from skopt.space import Real, Integer, Categorical
 from HyperparameterTuning.SearchBayesianSkopt import SearchBayesianSkopt
@@ -31,8 +31,8 @@ if __name__ == "__main__":
 
     evaluator = EvaluatorHoldout(URM_val, cutoff_list=[10])
     
-    output_folder_path = "result_experiments/EASE_R/"
-    recommender_class = EASE_R_Recommender
+    output_folder_path = "result_experiments/IALS/"
+    recommender_class = IALSRecommenderImplicit
     n_cases = 30
     n_random_starts = int(n_cases * 0.3)
     metric_to_optimize = "MAP"
@@ -44,9 +44,10 @@ if __name__ == "__main__":
 
     # Define hyperparameters
     hyperparameters_range_dictionary = {
-        "topK": Categorical([None]),
-        "normalize_matrix": Categorical([False]),
-        "l2_norm": Real(low=1e0, high=1e7, prior="log-uniform"),
+        "num_factors": Integer(1, 500),
+        "epochs": Categorical([150]),
+        "alpha": Real(low=1e-3, high=50.0, prior="log-uniform"),
+        "reg": Real(low=1e-5, high=1e-2, prior="log-uniform"),
     }
 
     hyperparameter_search = SearchBayesianSkopt(
