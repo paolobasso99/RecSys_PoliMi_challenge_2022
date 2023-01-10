@@ -67,14 +67,14 @@ if __name__ == "__main__":
             recommender_obj = recommender_class(recommender_URM_train + recommender_URM_val)
             recommender_obj.load_model(
                 str(folder / "tuned_URM"),
-                (recommender_class.RECOMMENDER_NAME + "_best_model_trained_with_everything.zip"),
+                (recommender_class.RECOMMENDER_NAME + "_best_model_trained_on_everything.zip"),
             )
         else:
             print(f"WARNING: Using implicit URM for {recommender_id}")
             recommender_obj = recommender_class(URM_train + URM_val)
             recommender_obj.load_model(
                 str(folder),
-                (recommender_class.RECOMMENDER_NAME + "_best_model_trained_with_everything.zip"),
+                (recommender_class.RECOMMENDER_NAME + "_best_model_trained_on_everything.zip"),
             )
             
         loaded_recommenders[recommender_id] = recommender_obj
