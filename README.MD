@@ -30,3 +30,9 @@ base=46.69485845326952, views_weight=78.51759613930136, details_weight=19.967378
 
 EASE_R: Best MAP so far: 0.02633010813203595
 base=81.12913520607813, views_weight=89.60912999234932, details_weight=31.800347497186387
+
+
+
+
+NMF -0.012
+PureSVD -0.012
