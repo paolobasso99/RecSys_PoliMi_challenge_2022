@@ -21,11 +21,11 @@ class Hybrid(BaseRecommender):
 
         self.recommenders = recommenders
 
-    def fit(self, KNN, RP3beta, EASE_R):
+    def fit(self, KNN, RP3beta, IALS, EASE_R):
         self.weights = {
             "KNN": KNN,
             "RP3beta": RP3beta,
-            #"IALS": IALS,
+            "IALS": IALS,
             "EASE_R": EASE_R,
         }
 
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     base_recommenders = {
         "KNN": (ItemKNNCFRecommender, Path("result_experiments/KNN")),
         "RP3beta": (RP3betaRecommender, Path("result_experiments/RP3beta")),
-        #"IALS": (IALSRecommenderImplicit, Path("result_experiments/IALS")),
+        "IALS": (IALSRecommenderImplicit, Path("result_experiments/IALS")),
         "EASE_R": (EASE_R_Recommender, Path("result_experiments/EASE_R")),
     }
 
@@ -79,7 +79,7 @@ if __name__ == "__main__":
             
         loaded_recommenders[recommender_id] = recommender_obj
 
-    best_hyperparameters = load_best_hyperparameters("result_experiments/Hybrid")
+    best_hyperparameters = load_best_hyperparameters(Path("result_experiments/Hybrid"))
     recommender = Hybrid(URM_train + URM_val, loaded_recommenders)
-    recommender.fit(best_hyperparameters)
+    recommender.fit(**best_hyperparameters)
     create_submission(recommender)

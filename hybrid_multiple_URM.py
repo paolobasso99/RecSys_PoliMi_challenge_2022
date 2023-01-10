@@ -29,11 +29,11 @@ class Hybrid(BaseRecommender):
 
         self.recommenders = recommenders
 
-    def fit(self, KNN, RP3beta, EASE_R):
+    def fit(self, KNN, RP3beta, IALS, EASE_R):
         self.weights = {
             "KNN": KNN,
             "RP3beta": RP3beta,
-            #"IALS": IALS,
+            "IALS": IALS,
             "EASE_R": EASE_R,
         }
 
@@ -56,15 +56,15 @@ if __name__ == "__main__":
     base_recommenders = {
         "KNN": (ItemKNNCFRecommender, Path("result_experiments/KNN")),
         "RP3beta": (RP3betaRecommender, Path("result_experiments/RP3beta")),
-        #"IALS": (IALSRecommenderImplicit, Path("result_experiments/IALS")),
+        "IALS": (IALSRecommenderImplicit, Path("result_experiments/IALS")),
         "EASE_R": (EASE_R_Recommender, Path("result_experiments/EASE_R")),
     }
 
     hyperparameters_range_dictionary = {
-        "KNN": Real(0.0, 1.0),
+        "KNN": Real(0.0, 0.8),
         "RP3beta": Real(0.2, 1.0),
-        #"IALS": Real(0.0, 1.0),
-        "EASE_R": Real(0.3, 1.0),
+        "IALS": Real(0.0, 0.8),
+        "EASE_R": Real(0.4, 1.0),
     }
 
     dataset_loader = DatasetLoader()
