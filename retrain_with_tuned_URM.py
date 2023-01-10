@@ -3,7 +3,6 @@ from pathlib import Path
 from Recommenders.BaseRecommender import BaseRecommender
 from Recommenders.KNN.ItemKNNCFRecommender import ItemKNNCFRecommender
 from Recommenders.EASE_R.EASE_R_Recommender import EASE_R_Recommender
-from Recommenders.MatrixFactorization.IALSRecommenderImplicit import IALSRecommenderImplicit
 from Recommenders.GraphBased.RP3betaRecommender import RP3betaRecommender
 from utils.load_best_hyperparameters import load_best_hyperparameters
 from data_manager import DatasetLoader, DatasetSplitter, URMGenerator
@@ -36,9 +35,8 @@ if __name__ == "__main__":
         "details_weight": 31.800347497186387
     }
     to_train = {
-        ItemKNNCFRecommender: Path("result_experiments/KNN"),
-        #IALSRecommenderImplicit: Path("result_experiments/IALS"),
-        RP3betaRecommender: Path("result_experiments/RP3beta"),
+        #ItemKNNCFRecommender: Path("result_experiments/KNN"),
+        #RP3betaRecommender: Path("result_experiments/RP3beta"),
         EASE_R_Recommender: Path("result_experiments/EASE_R"),
     }
 

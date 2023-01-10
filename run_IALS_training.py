@@ -26,7 +26,7 @@ if __name__ == "__main__":
     dataset_splitter = DatasetSplitter(dataset_loader)
     dataset_train, dataset_val = dataset_splitter.load_train_val()
     URM_generator = URMGenerator(dataset_train, dataset_val)
-    URM_train, URM_val = URM_generator.generate_explicit_URM(log_base=4, views_weight=1, details_weight=0.8)
+    URM_train, URM_val = URM_generator.generate_implicit_URM()
     URM_all = URM_train + URM_val
 
     evaluator = EvaluatorHoldout(URM_val, cutoff_list=[10])
@@ -45,7 +45,7 @@ if __name__ == "__main__":
     # Define hyperparameters
     hyperparameters_range_dictionary = {
         "num_factors": Integer(1, 500),
-        "epochs": Categorical([150]),
+        "epochs": Integer(100, 200),
         "alpha": Real(low=1e-3, high=50.0, prior="log-uniform"),
         "reg": Real(low=1e-5, high=1e-2, prior="log-uniform"),
     }

@@ -4,22 +4,16 @@ from Recommenders.BaseRecommender import (
 )
 from data_manager import DatasetLoader, DatasetSplitter, URMGenerator
 from evaluation.evaluator import EvaluatorHoldout
-from Recommenders.DataIO import DataIO
+from pathlib import Path
+from utils.load_best_hyperparameters import load_best_hyperparameters
 
-def URM_tuner(N, recommender_class: BaseRecommender, model_folder):
+def URM_tuner(N, recommender_class: BaseRecommender, model_folder: Path):
     dataset_loader = DatasetLoader()
     dataset_splitter = DatasetSplitter(dataset_loader)
     dataset_train, dataset_val = dataset_splitter.load_train_val()
     URM_generator = URMGenerator(dataset_train, dataset_val)
 
-    print("Load best hyperparameters")
-    data_loader = DataIO(folder_path=model_folder)
-    search_metadata = data_loader.load_data(
-        recommender_class.RECOMMENDER_NAME + "_metadata.zip"
-    )
-    best_hyperparameters = search_metadata["hyperparameters_best"]
-    print("best_param", best_hyperparameters)
-
+    best_hyperparameters = load_best_hyperparameters(model_folder)
 
     best_map = 0
     best_base = 0
@@ -55,6 +49,8 @@ def URM_tuner(N, recommender_class: BaseRecommender, model_folder):
 
         print(f"\nBest MAP so far: {best_map}")
         print(f"base={best_base}, views_weight={best_views_weight}, details_weight={best_details_weight}")
+
+    return best_base, best_views_weight, best_details_weight
 
 
 
