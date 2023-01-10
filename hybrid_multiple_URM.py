@@ -10,7 +10,6 @@ from evaluation.evaluator import EvaluatorHoldout
 from data_manager import DatasetLoader, DatasetSplitter, URMGenerator
 from Recommenders.BaseRecommender import BaseRecommender
 from Recommenders.KNN.ItemKNNCFRecommender import ItemKNNCFRecommender
-from Recommenders.NonPersonalizedRecommender import TopPop
 from Recommenders.GraphBased.RP3betaRecommender import RP3betaRecommender
 from Recommenders.MatrixFactorization.IALSRecommenderImplicit import (
     IALSRecommenderImplicit,
@@ -24,31 +23,28 @@ from Recommenders.DataIO import DataIO
 from typing import Dict, Any, Tuple
 from pathlib import Path
 
-
 class Hybrid(BaseRecommender):
     def __init__(self, URM_train, recommenders, verbose=True):
         super().__init__(URM_train, verbose)
 
         self.recommenders = recommenders
 
-    def fit(self, KNN, RP3beta, IALS, EASE_R):
+    def fit(self, KNN, RP3beta, EASE_R):
         self.weights = {
             "KNN": KNN,
             "RP3beta": RP3beta,
-            "IALS": IALS,
+            #"IALS": IALS,
             "EASE_R": EASE_R,
         }
 
     def _compute_item_score(self, user_id_array, items_to_compute=None):
         item_weights = {}
         for rec_id, rec_obj in self.recommenders.items():
-            print(f"Computing item weights for {rec_id}")
             rec_item_weights = rec_obj._compute_item_score(user_id_array)
             mean = np.mean(rec_item_weights)
             std = np.std(rec_item_weights)
             item_weights[rec_id] = (rec_item_weights - mean) / std
 
-        print("Computing aggregate item weights")
         result = 0
         for rec_id in self.recommenders.keys():
             result += item_weights[rec_id] * self.weights[rec_id]
@@ -60,14 +56,14 @@ if __name__ == "__main__":
     base_recommenders = {
         "KNN": (ItemKNNCFRecommender, Path("result_experiments/KNN")),
         "RP3beta": (RP3betaRecommender, Path("result_experiments/RP3beta")),
-        # "IALS": (IALSRecommenderImplicit, Path("result_experiments/IALS")),
+        #"IALS": (IALSRecommenderImplicit, Path("result_experiments/IALS")),
         "EASE_R": (EASE_R_Recommender, Path("result_experiments/EASE_R")),
     }
 
     hyperparameters_range_dictionary = {
         "KNN": Real(0.0, 1.0),
         "RP3beta": Real(0.2, 1.0),
-        "IALS": Real(0.0, 1.0),
+        #"IALS": Real(0.0, 1.0),
         "EASE_R": Real(0.3, 1.0),
     }
 
@@ -80,17 +76,27 @@ if __name__ == "__main__":
 
     loaded_recommenders = {}
     for recommender_id, (recommender_class, folder) in base_recommenders.items():
-        recommender_URM_train = sps.load_np(folder / "tuned_URM/URM_train.npz")
-        recommender_obj = recommender_class(recommender_URM_train)
-        recommender_obj.load_model(
-            str(folder / "tuned_URM"),
-            (recommender_class.RECOMMENDER_NAME + "_best_model.zip"),
-        )
+        URM_train_file = folder / "tuned_URM/URM_train.npz"
+        if URM_train_file.exists():
+            recommender_URM_train = sps.load_npz(URM_train_file)
+            recommender_obj = recommender_class(recommender_URM_train)
+            recommender_obj.load_model(
+                str(folder / "tuned_URM"),
+                (recommender_class.RECOMMENDER_NAME + "_best_model.zip"),
+            )
+        else:
+            print(f"WARNING: Using implicit URM for {recommender_id}")
+            recommender_obj = recommender_class(URM_train)
+            recommender_obj.load_model(
+                str(folder),
+                (recommender_class.RECOMMENDER_NAME + "_best_model.zip"),
+            )
+            
         loaded_recommenders[recommender_id] = recommender_obj
 
     output_folder_path = "result_experiments/Hybrid/"
     recommender_class = Hybrid
-    n_cases = 100
+    n_cases = 30
     n_random_starts = int(n_cases * 0.3)
     metric_to_optimize = "MAP"
     cutoff_to_optimize = 10
