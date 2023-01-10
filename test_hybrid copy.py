@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import scipy.sparse as sps
 
 from skopt.space import Real
 from HyperparameterTuning.SearchBayesianSkopt import SearchBayesianSkopt
@@ -97,6 +98,17 @@ if __name__ == "__main__":
     dataset_splitter = DatasetSplitter(dataset_loader)
     dataset_train, dataset_val = dataset_splitter.load_train_val()
     URM_generator = URMGenerator(dataset_train, dataset_val)
+
+    knn = ItemKNNCFRecommender(sps.coo_matrix())
+    URM_train_knn = URM_generator(log_base=2, views_weight=1, details_weight=0.8)
+    knn.set_URM_train(URM_train_knn)
+    base_recommenders = {
+        "knn": knn,
+    }
+    URMs = {
+        "knn": (URM_train_knn, URM_val_knn),
+    }
+
     URM_train, URM_val = URM_generator.generate_explicit_URM()
     URM_all = URM_train + URM_val
 
@@ -104,7 +116,7 @@ if __name__ == "__main__":
 
     output_folder_path = "result_experiments/Hybrid_knn_rp3_ials_toppop_easer/"
     recommender_class = Hybrid
-    n_cases = 30
+    n_cases = 100
     n_random_starts = int(n_cases * 0.3)
     metric_to_optimize = "MAP"
     cutoff_to_optimize = 10
@@ -115,11 +127,11 @@ if __name__ == "__main__":
 
     # Define hyperparameters
     hyperparameters_range_dictionary = {
-        "knn_w": Real(0.0, 1.0),
-        "rp3_w": Real(0.0, 1.0),
-        "ials_w": Real(0.0, 1.0),
-        "top_pop_w": Real(0.0, 0.1),
-        "ease_r_w": Real(0.0, 1.0),
+        "knn": Real(0.0, 1.0),
+        "rp3": Real(0.2, 1.0),
+        "ials": Real(0.0, 1.0),
+        "top_pop": Real(0.0, 0.15),
+        "ease_r_w": Real(0.3, 1.0),
     }
 
     hyperparameter_search = SearchBayesianSkopt(
