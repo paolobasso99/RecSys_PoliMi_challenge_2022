@@ -40,3 +40,4 @@ MF BPR fail
 SLIM ElasticNet -0.244
 hybrid IALS EASEr KNN RP3 -0.0272
 FunkSVD fail
+MultVAE too long (10hr+)
