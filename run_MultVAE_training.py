@@ -29,6 +29,7 @@ if __name__ == "__main__":
         os.makedirs(output_folder_path)
 
     # Define hyperparameters
+    n_users, n_items = URM_train.shape
     hyperparameters_range_dictionary = {
         "epochs": Categorical([200]),
         "learning_rate": Real(low=1e-6, high=1e-2, prior="log-uniform"),
