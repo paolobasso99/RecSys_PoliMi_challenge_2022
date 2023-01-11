@@ -19,7 +19,7 @@ if __name__ == "__main__":
     
     output_folder_path = "result_experiments/MF_FunkSVD/"
     recommender_class = MatrixFactorization_FunkSVD_Cython
-    n_cases = 100
+    n_cases = 50
     n_random_starts = int(n_cases * 0.3)
     metric_to_optimize = "MAP"
     cutoff_to_optimize = 10
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     # Define hyperparameters
     hyperparameters_range_dictionary = {
         "sgd_mode": Categorical(["sgd", "adagrad", "adam"]),
-        "epochs": Categorical([500]),
+        "epochs": Categorical([200]),
         "use_bias": Categorical([True, False]),
         "batch_size": Categorical(
             [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]

@@ -1,9 +1,9 @@
 import os
 from data_manager import DatasetLoader, DatasetSplitter, URMGenerator
 from evaluation.evaluator import EvaluatorHoldout
-from Recommenders.MatrixFactorization.Cython.MatrixFactorization_Cython import MatrixFactorization_AsySVD_Cython
 from skopt.space import Real, Integer, Categorical
 from HyperparameterTuning.SearchBayesianSkopt import SearchBayesianSkopt
+from Recommenders.Neural.MultVAERecommender import MultVAERecommender_OptimizerMask as MultVAERecommender
 from HyperparameterTuning.SearchAbstractClass import SearchInputRecommenderArgs
 from Recommenders.DataIO import DataIO
 
@@ -17,8 +17,8 @@ if __name__ == "__main__":
 
     evaluator = EvaluatorHoldout(URM_val, cutoff_list=[10])
     
-    output_folder_path = "result_experiments/MF_AsySVD/"
-    recommender_class = MatrixFactorization_AsySVD_Cython
+    output_folder_path = "result_experiments/MultVAERecommender/"
+    recommender_class = MultVAERecommender
     n_cases = 50
     n_random_starts = int(n_cases * 0.3)
     metric_to_optimize = "MAP"
@@ -30,15 +30,19 @@ if __name__ == "__main__":
 
     # Define hyperparameters
     hyperparameters_range_dictionary = {
-        "sgd_mode": Categorical(["sgd", "adagrad", "adam"]),
         "epochs": Categorical([200]),
-        "use_bias": Categorical([True, False]),
-        "batch_size": Categorical([1]),
-        "num_factors": Integer(1, 200),
-        "item_reg": Real(low=1e-5, high=1e-2, prior="log-uniform"),
-        "user_reg": Real(low=1e-5, high=1e-2, prior="log-uniform"),
-        "learning_rate": Real(low=1e-4, high=1e-1, prior="log-uniform"),
-        "negative_interactions_quota": Real(low=0.0, high=0.5, prior="uniform"),
+        "learning_rate": Real(low=1e-6, high=1e-2, prior="log-uniform"),
+        "l2_reg": Real(low=1e-6, high=1e-2, prior="log-uniform"),
+        "dropout": Real(low=0.0, high=0.8, prior="uniform"),
+        "total_anneal_steps": Integer(100000, 600000),
+        "anneal_cap": Real(low=0.0, high=0.6, prior="uniform"),
+        "batch_size": Categorical([128, 256, 512, 1024]),
+        "encoding_size": Integer(1, min(512, n_items - 1)),
+        "next_layer_size_multiplier": Integer(2, 10),
+        "max_n_hidden_layers": Integer(1, 4),
+        # Constrain the model to a maximum number of parameters so that its size does not exceed 7 GB
+        # Estimate size by considering each parameter uses float32
+        "max_parameters": Categorical([7 * 1e9 * 8 / 32]),
     }
 
     hyperparameter_search = SearchBayesianSkopt(

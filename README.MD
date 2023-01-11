@@ -32,7 +32,11 @@ EASE_R: Best MAP so far: 0.02633010813203595
 base=81.12913520607813, views_weight=89.60912999234932, details_weight=31.800347497186387
 
 
-
-
 NMF -0.012
 PureSVD -0.012
+AsySVD too slow (10hr+)
+SLIM BPR fail
+MF BPR fail
+SLIM ElasticNet -0.244
+hybrid IALS EASEr KNN RP3 -0.0272
+FunkSVD fail
