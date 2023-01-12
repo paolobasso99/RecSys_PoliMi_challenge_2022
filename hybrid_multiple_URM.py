@@ -14,6 +14,7 @@ from Recommenders.GraphBased.RP3betaRecommender import RP3betaRecommender
 from Recommenders.MatrixFactorization.IALSRecommenderImplicit import (
     IALSRecommenderImplicit,
 )
+from Recommenders.SLIM.SLIMElasticNetRecommender import SLIMElasticNetRecommender
 from Recommenders.EASE_R.EASE_R_Recommender import (
     EASE_R_Recommender,
 )
@@ -29,12 +30,13 @@ class Hybrid(BaseRecommender):
 
         self.recommenders = recommenders
 
-    def fit(self, KNN, RP3beta, IALS, EASE_R):
+    def fit(self, KNN, RP3beta, IALS, EASE_R, SLIMElasticNet):
         self.weights = {
             "KNN": KNN,
             "RP3beta": RP3beta,
             "IALS": IALS,
             "EASE_R": EASE_R,
+            "SLIMElasticNet": SLIMElasticNet
         }
 
     def _compute_item_score(self, user_id_array, items_to_compute=None):
@@ -58,13 +60,15 @@ if __name__ == "__main__":
         "RP3beta": (RP3betaRecommender, Path("result_experiments/RP3beta")),
         "IALS": (IALSRecommenderImplicit, Path("result_experiments/IALS")),
         "EASE_R": (EASE_R_Recommender, Path("result_experiments/EASE_R")),
+        "SLIMElasticNet": (SLIMElasticNetRecommender, Path("result_experiments/SLIMElasticNet"))
     }
 
     hyperparameters_range_dictionary = {
-        "KNN": Real(0.0, 0.8),
+        "KNN": Real(0.0, 0.7),
         "RP3beta": Real(0.2, 1.0),
         "IALS": Real(0.0, 0.8),
-        "EASE_R": Real(0.4, 1.0),
+        "EASE_R": Real(0.3, 1.0),
+        "SLIMElasticNet": Real(0.3, 1.0)
     }
 
     dataset_loader = DatasetLoader()

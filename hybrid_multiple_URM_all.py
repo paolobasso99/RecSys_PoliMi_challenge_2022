@@ -11,9 +11,11 @@ from Recommenders.EASE_R.EASE_R_Recommender import (
     EASE_R_Recommender,
 )
 from Recommenders.BaseRecommender import BaseRecommender
+from Recommenders.SLIM.SLIMElasticNetRecommender import SLIMElasticNetRecommender
 from utils.load_best_hyperparameters import load_best_hyperparameters
 from utils.create_submission import create_submission
 from pathlib import Path
+
 
 class Hybrid(BaseRecommender):
     def __init__(self, URM_train, recommenders, verbose=True):
@@ -21,12 +23,13 @@ class Hybrid(BaseRecommender):
 
         self.recommenders = recommenders
 
-    def fit(self, KNN, RP3beta, IALS, EASE_R):
+    def fit(self, KNN, RP3beta, IALS, EASE_R, SLIMElasticNet):
         self.weights = {
             "KNN": KNN,
             "RP3beta": RP3beta,
             "IALS": IALS,
             "EASE_R": EASE_R,
+            "SLIMElasticNet": SLIMElasticNet
         }
 
     def _compute_item_score(self, user_id_array, items_to_compute=None):
@@ -43,13 +46,13 @@ class Hybrid(BaseRecommender):
 
         return result
 
-
 if __name__ == "__main__":
     base_recommenders = {
         "KNN": (ItemKNNCFRecommender, Path("result_experiments/KNN")),
         "RP3beta": (RP3betaRecommender, Path("result_experiments/RP3beta")),
         "IALS": (IALSRecommenderImplicit, Path("result_experiments/IALS")),
         "EASE_R": (EASE_R_Recommender, Path("result_experiments/EASE_R")),
+        "SLIMElasticNet": (SLIMElasticNetRecommender, Path("result_experiments/SLIMElasticNet"))
     }
 
     dataset_loader = DatasetLoader()

@@ -1,15 +1,13 @@
 import scipy.sparse as sps
-from Recommenders.EASE_R.EASE_R_Recommender import (
-    EASE_R_Recommender,
-)
+from Recommenders.SLIM.SLIMElasticNetRecommender import SLIMElasticNetRecommender
 from utils.URM_tuner import URM_tuner
 from retrain_with_tuned_URM import retrain_with_tuned_URM
 from pathlib import Path
 from data_manager import DatasetLoader, DatasetSplitter, URMGenerator
 
 if __name__ == "__main__":
-    recommender_class = EASE_R_Recommender
-    model_folder = Path("result_experiments/EASE_R/")
+    recommender_class = SLIMElasticNetRecommender
+    model_folder = Path("result_experiments/SLIMElasticNet/")
     N = 100
     run_tuner = True
     

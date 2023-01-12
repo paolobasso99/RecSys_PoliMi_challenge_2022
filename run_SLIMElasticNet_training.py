@@ -30,9 +30,9 @@ if __name__ == "__main__":
 
     # Define hyperparameters
     hyperparameters_range_dictionary = {
-        "topK": Integer(5, 1000),
-        "l1_ratio": Real(low=1e-5, high=1.0, prior="log-uniform"),
-        "alpha": Real(low=1e-3, high=1.0, prior="uniform"),
+        "topK": Integer(500, 2000),
+        "l1_ratio": Real(low=1e-4, high=0.1, prior="log-uniform"),
+        "alpha": Real(low=1e-4, high=0.1, prior="uniform"),
     }
 
     hyperparameter_search = SearchBayesianSkopt(
