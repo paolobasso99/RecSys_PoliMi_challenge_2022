@@ -10,7 +10,7 @@ from utils.load_best_hyperparameters import load_best_hyperparameters
 def URM_tuner(N, recommender_class: BaseRecommender, model_folder: Path):
     dataset_loader = DatasetLoader()
     dataset_splitter = DatasetSplitter(dataset_loader)
-    dataset_train, dataset_val = dataset_splitter.load_train_val()
+    dataset_train, dataset_val = dataset_splitter.load_interactions_train_val()
     URM_generator = URMGenerator(dataset_train, dataset_val)
 
     best_hyperparameters = load_best_hyperparameters(model_folder)

@@ -13,7 +13,7 @@ if __name__ == "__main__":
     
     dataset_loader = DatasetLoader()
     dataset_splitter = DatasetSplitter(dataset_loader)
-    dataset_train, dataset_val = dataset_splitter.load_train_val()
+    dataset_train, dataset_val = dataset_splitter.load_interactions_train_val()
     URM_generator = URMGenerator(dataset_train, dataset_val)
     
     if run_tuner:

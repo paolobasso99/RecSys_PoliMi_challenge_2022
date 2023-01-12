@@ -20,35 +20,42 @@ class DatasetSplitter(object):
             os.mkdir(splitted_data_dir)
 
         self.splitted_data_dir = splitted_data_dir
-        self.train_file_path = self.splitted_data_dir / "train.csv"
-        self.val_file_path = self.splitted_data_dir / "val.csv"
+        self.interactions_train_path = self.splitted_data_dir / "interactions_train.csv"
+        self.interactions_val_path = self.splitted_data_dir / "interactions_val.csv"
+        self.impressions_train_path = self.splitted_data_dir / "impressions_train.csv"
+        self.impressions_val_path = self.splitted_data_dir / "impressions_val.csv"
 
     def generate_train_val(self, test_size=0.15) -> Tuple[pd.DataFrame, pd.DataFrame]:
-        dataset = self.dataset_loader.load_dataset()
+        interactions = self.dataset_loader.load_interactions()
 
-        dataset_train, dataset_val = train_test_split(
-            dataset,
+        interactions_train, interactions_val = train_test_split(
+            interactions,
             test_size=test_size,
             shuffle=True,
-            stratify=dataset["user_id"],
+            stratify=interactions["user_id"],
         )
 
+        return interactions_train, interactions_val
+
+    def load_impressions_train_val(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        dataset_train = pd.read_csv(self.impressions_train_path)
+        dataset_val = pd.read_csv(self.impressions_val_path)
         return dataset_train, dataset_val
 
-    def load_train_val(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
-        if not os.path.isfile(self.train_file_path) or not os.path.isfile(
-            self.val_file_path
+    def load_interactions_train_val(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        if not os.path.isfile(self.interactions_train_path) or not os.path.isfile(
+            self.interactions_val_path
         ):
             print("Splits do not exists, generating...")
             dataset_train, dataset_val = self.generate_train_val()
 
             print("Saving generated splits...")
-            dataset_train.to_csv(self.train_file_path)
-            dataset_val.to_csv(self.val_file_path)
+            dataset_train.to_csv(self.interactions_train_path)
+            dataset_val.to_csv(self.interactions_val_path)
         else:
-            print("Loading previusly generated splits...")
+            print("Loading previously generated splits...")
             dataset_train = pd.read_csv(
-                self.train_file_path,
+                self.interactions_train_path,
                 usecols=[
                     "user_id",
                     "item_id",
@@ -67,7 +74,7 @@ class DatasetSplitter(object):
                 },
             )
             dataset_val = pd.read_csv(
-                self.val_file_path,
+                self.interactions_val_path,
                 usecols=[
                     "user_id",
                     "item_id",

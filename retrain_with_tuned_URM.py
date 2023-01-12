@@ -1,9 +1,7 @@
 from pathlib import Path
 
 from Recommenders.BaseRecommender import BaseRecommender
-from Recommenders.KNN.ItemKNNCFRecommender import ItemKNNCFRecommender
 from Recommenders.EASE_R.EASE_R_Recommender import EASE_R_Recommender
-from Recommenders.GraphBased.RP3betaRecommender import RP3betaRecommender
 from utils.load_best_hyperparameters import load_best_hyperparameters
 from data_manager import DatasetLoader, DatasetSplitter, URMGenerator
 
@@ -43,7 +41,7 @@ if __name__ == "__main__":
 
     dataset_loader = DatasetLoader()
     dataset_splitter = DatasetSplitter(dataset_loader)
-    dataset_train, dataset_val = dataset_splitter.load_train_val()
+    dataset_train, dataset_val = dataset_splitter.load_interactions_train_val()
     URM_generator = URMGenerator(dataset_train, dataset_val)
     URM_train, URM_val = URM_generator.generate_explicit_URM(**URM_parameters)
 

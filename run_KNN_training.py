@@ -1,9 +1,4 @@
 import os
-import random
-
-import numpy as np
-import pandas as pd
-import scipy.sparse as sps
 
 from data_manager import DatasetLoader, DatasetSplitter, URMGenerator
 from evaluation.evaluator import EvaluatorHoldout
@@ -16,22 +11,16 @@ from HyperparameterTuning.SearchAbstractClass import SearchInputRecommenderArgs
 from Recommenders.DataIO import DataIO
 
 if __name__ == "__main__":
-    # Random seed for reproducibility
-    SEED = 42
-    random.seed(SEED)
-    os.environ['PYTHONHASHSEED'] = str(SEED)
-    np.random.seed(SEED)
-    
     dataset_loader = DatasetLoader()
     dataset_splitter = DatasetSplitter(dataset_loader)
-    dataset_train, dataset_val = dataset_splitter.load_train_val()
+    dataset_train, dataset_val = dataset_splitter.load_interactions_train_val()
     URM_generator = URMGenerator(dataset_train, dataset_val)
     URM_train, URM_val = URM_generator.generate_explicit_URM(log_base=4, views_weight=1, details_weight=0.8)
     URM_all = URM_train + URM_val
 
     evaluator = EvaluatorHoldout(URM_val, cutoff_list=[10])
     
-    output_folder_path = "result_experiments/KNN/"
+    output_folder_path = "result_experiments/test/"
     recommender_class = ItemKNNCFRecommender
     n_cases = 50
     n_random_starts = int(n_cases * 0.3)
@@ -65,18 +54,17 @@ if __name__ == "__main__":
         EARLYSTOPPING_KEYWORD_ARGS={},
     )
 
-    if False:
-        hyperparameter_search.search(
-            recommender_input_args,
-            hyperparameter_search_space=hyperparameters_range_dictionary,
-            n_cases=n_cases,
-            n_random_starts=n_random_starts,
-            save_model="best",
-            output_folder_path=output_folder_path,  # Where to save the results
-            output_file_name_root=recommender_class.RECOMMENDER_NAME,  # How to call the files
-            metric_to_optimize=metric_to_optimize,
-            cutoff_to_optimize=cutoff_to_optimize,
-        )
+    hyperparameter_search.search(
+        recommender_input_args,
+        hyperparameter_search_space=hyperparameters_range_dictionary,
+        n_cases=n_cases,
+        n_random_starts=n_random_starts,
+        save_model="best",
+        output_folder_path=output_folder_path,  # Where to save the results
+        output_file_name_root=recommender_class.RECOMMENDER_NAME,  # How to call the files
+        metric_to_optimize=metric_to_optimize,
+        cutoff_to_optimize=cutoff_to_optimize,
+    )
 
     data_loader = DataIO(folder_path=output_folder_path)
     search_metadata = data_loader.load_data(

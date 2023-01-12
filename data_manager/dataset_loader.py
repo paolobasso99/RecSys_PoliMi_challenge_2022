@@ -15,19 +15,19 @@ class DatasetLoader(object):
         if not os.path.exists(self.processed_data_dir):
             os.mkdir(processed_data_dir)
 
-        self.dataset_file_path = self.processed_data_dir / "dataset.csv"
+        self.interactions_file_path = self.processed_data_dir / "interactions.csv"
 
-    def load_dataset(self) -> pd.DataFrame:
-        if not os.path.isfile(self.dataset_file_path):
-            print("Dataset file does not exists, generating from raw data...")
+    def load_interactions(self) -> pd.DataFrame:
+        if not os.path.isfile(self.interactions_file_path):
+            print("Interactions file does not exists, generating from raw data...")
             dataset = self.generate_dataset_from_raw_data()
             
-            print("Saving created dataset...")
-            dataset.to_csv(self.dataset_file_path)
+            print("Saving created interactions dataset...")
+            dataset.to_csv(self.interactions_file_path)
         else:
-            print("Loading dataset from file...")
+            print("Loading interactions dataset from file...")
             dataset = pd.read_csv(
-                self.dataset_file_path,
+                self.interactions_file_path,
                 usecols=[
                     "user_id",
                     "item_id",
@@ -119,8 +119,3 @@ class DatasetLoader(object):
         view_details_count.loc[view_details_count["length"].isna(), "length"] = 1
 
         return view_details_count
-
-
-if __name__ == "__main__":
-    dataset_loader = DatasetLoader()
-    dataset = dataset_loader.load_dataset()
