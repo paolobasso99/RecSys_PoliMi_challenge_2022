@@ -61,11 +61,7 @@ if __name__ == "__main__":
         CONSTRUCTOR_POSITIONAL_ARGS=[URM_train],
         CONSTRUCTOR_KEYWORD_ARGS={},
         FIT_POSITIONAL_ARGS=[],
-        FIT_KEYWORD_ARGS={
-            "positive_threshold_BPR": None,
-            "train_with_sparse_weights": False,
-            "allow_train_with_sparse_weights": False,
-        },
+        FIT_KEYWORD_ARGS={},
         EARLYSTOPPING_KEYWORD_ARGS=earlystopping_keywargs,
     )
 
