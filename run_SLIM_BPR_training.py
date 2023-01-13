@@ -12,11 +12,13 @@ if __name__ == "__main__":
     dataset_splitter = DatasetSplitter(dataset_loader)
     dataset_train, dataset_val = dataset_splitter.load_interactions_train_val()
     URM_generator = URMGenerator(dataset_train, dataset_val)
-    URM_train, URM_val = URM_generator.generate_explicit_URM(log_base=4, views_weight=1, details_weight=0.8)
+    URM_train, URM_val = URM_generator.generate_explicit_URM(
+        log_base=4, views_weight=1, details_weight=0.8
+    )
     URM_all = URM_train + URM_val
 
     evaluator = EvaluatorHoldout(URM_val, cutoff_list=[10])
-    
+
     output_folder_path = "result_experiments/SLIM_BPR/"
     recommender_class = SLIM_BPR_Cython
     n_cases = 100
@@ -44,14 +46,24 @@ if __name__ == "__main__":
         evaluator_validation=evaluator,
     )
 
+    earlystopping_keywargs = {
+        "validation_every_n": 5,
+        "stop_on_validation": True,
+        "evaluator_object": evaluator,
+        "lower_validations_allowed": 5,
+        "validation_metric": metric_to_optimize,
+    }
+
     recommender_input_args = SearchInputRecommenderArgs(
-        CONSTRUCTOR_POSITIONAL_ARGS=[
-            URM_train,
-        ],
+        CONSTRUCTOR_POSITIONAL_ARGS=[URM_train],
         CONSTRUCTOR_KEYWORD_ARGS={},
         FIT_POSITIONAL_ARGS=[],
-        FIT_KEYWORD_ARGS={},
-        EARLYSTOPPING_KEYWORD_ARGS={},
+        FIT_KEYWORD_ARGS={
+            "positive_threshold_BPR": None,
+            "train_with_sparse_weights": False,
+            "allow_train_with_sparse_weights": False,
+        },
+        EARLYSTOPPING_KEYWORD_ARGS=earlystopping_keywargs,
     )
 
     if True:
@@ -74,7 +86,7 @@ if __name__ == "__main__":
 
     best_hyperparameters = search_metadata["hyperparameters_best"]
     print("best_param", best_hyperparameters)
-    
+
     recommender = recommender_class(URM_train + URM_val)
     recommender.fit(**best_hyperparameters)
     recommender.save_model(

@@ -18,7 +18,7 @@ from Recommenders.Recommender_utils import check_matrix
 from Recommenders.IR_feature_weighting import okapi_BM_25, TF_IDF
 from Recommenders.Similarity.Compute_Similarity import Compute_Similarity
 
-from cython_compiler.run_compile_subprocess import run_compile_subprocess
+from CythonCompiler.run_compile_subprocess import run_compile_subprocess
 
 
 class CFW_DVV_Similarity_Cython(BaseItemCBFRecommender, BaseItemSimilarityMatrixRecommender, Incremental_Training_Early_Stopping):

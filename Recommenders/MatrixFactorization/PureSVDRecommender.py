@@ -8,7 +8,7 @@ Created on 14/06/18
 
 from Recommenders.Similarity.Compute_Similarity_Python import Incremental_Similarity_Builder
 from Recommenders.BaseMatrixFactorizationRecommender import BaseSVDRecommender
-from utils.seconds_to_biggest_unit import seconds_to_biggest_unit
+from Utils.seconds_to_biggest_unit import seconds_to_biggest_unit
 from sklearn.utils.extmath import randomized_svd
 import scipy.sparse as sps
 import numpy as np

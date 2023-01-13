@@ -9,7 +9,7 @@ import scipy.sparse as sps
 
 from sklearn.preprocessing import normalize
 from Recommenders.Recommender_utils import check_matrix, similarityMatrixTopK
-from utils.seconds_to_biggest_unit import seconds_to_biggest_unit
+from Utils.seconds_to_biggest_unit import seconds_to_biggest_unit
 
 from Recommenders.BaseSimilarityMatrixRecommender import BaseItemSimilarityMatrixRecommender
 from Recommenders.Similarity.Compute_Similarity_Python import Incremental_Similarity_Builder
