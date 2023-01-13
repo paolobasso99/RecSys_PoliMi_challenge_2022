@@ -123,7 +123,7 @@ if __name__ == "__main__":
     UIM_train, UIM_val = UIM_generator.generate()
 
     evaluator = EvaluatorHoldout(URM_val, cutoff_list=[10])
-    best_weights = load_best_hyperparameters(Path("result_experiments/Hybrid6138"))
+    best_weights = load_best_hyperparameters(Path("result_experiments/Hybrid_SLIM_EASE_R_IALS_RP3_KNN"))
 
     loaded_recommenders = {}
     for recommender_id, (recommender_class, folder) in base_recommenders.items():
@@ -148,5 +148,6 @@ if __name__ == "__main__":
 
     best_hyperparameters = load_best_hyperparameters(Path("result_experiments/Hybrid_impressions"))
     recommender = Hybrid(URM_train + URM_val, UIM_train + UIM_val, loaded_recommenders)
-    recommender.fit({**best_hyperparameters, **best_weights})
+    params = {**best_hyperparameters, **best_weights}
+    recommender.fit(params)
     create_submission(recommender)
