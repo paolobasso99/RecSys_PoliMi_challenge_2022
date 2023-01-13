@@ -1141,7 +1141,7 @@ def read_data_split_and_search():
 
 
 
-    from Evaluation.Evaluator import EvaluatorHoldout
+    from evaluation.evaluator import EvaluatorHoldout
 
     evaluator_validation = EvaluatorHoldout(URM_validation, cutoff_list=[5])
     evaluator_test = EvaluatorHoldout(URM_test, cutoff_list=[5, 10])

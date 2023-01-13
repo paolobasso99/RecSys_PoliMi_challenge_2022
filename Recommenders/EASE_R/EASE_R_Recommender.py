@@ -8,7 +8,7 @@ Created on 23/10/17
 
 from Recommenders.BaseSimilarityMatrixRecommender import BaseItemSimilarityMatrixRecommender
 from Recommenders.Recommender_utils import similarityMatrixTopK, check_matrix
-from Utils.seconds_to_biggest_unit import seconds_to_biggest_unit
+from utils.seconds_to_biggest_unit import seconds_to_biggest_unit
 from sklearn.preprocessing import normalize
 import numpy as np
 import time

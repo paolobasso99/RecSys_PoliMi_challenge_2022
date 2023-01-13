@@ -9,7 +9,7 @@ Created on 23/10/17
 import numpy as np
 import time, sys
 import scipy.sparse as sps
-from Utils.seconds_to_biggest_unit import seconds_to_biggest_unit
+from utils.seconds_to_biggest_unit import seconds_to_biggest_unit
 from Recommenders.Similarity.Compute_Similarity_Python import Incremental_Similarity_Builder
 
 class Compute_Similarity_Euclidean:
