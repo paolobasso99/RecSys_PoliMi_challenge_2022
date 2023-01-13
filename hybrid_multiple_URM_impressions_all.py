@@ -149,5 +149,5 @@ if __name__ == "__main__":
     best_hyperparameters = load_best_hyperparameters(Path("result_experiments/Hybrid_impressions"))
     recommender = Hybrid(URM_train + URM_val, UIM_train + UIM_val, loaded_recommenders)
     params = {**best_hyperparameters, **best_weights}
-    recommender.fit(params)
+    recommender.fit(**params)
     create_submission(recommender)
