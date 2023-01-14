@@ -15,14 +15,14 @@ if __name__ == "__main__":
     dataset_splitter = DatasetSplitter(dataset_loader)
     dataset_train, dataset_val = dataset_splitter.load_interactions_train_val()
     URM_generator = URMGenerator(dataset_train, dataset_val)
-    URM_train, URM_val = URM_generator.generate_explicit_URM(log_base=4, views_weight=1, details_weight=0.8)
+    URM_train, URM_val = URM_generator.generate_explicit_URM(log_base=47, views_weight=79, details_weight=20)
     URM_all = URM_train + URM_val
 
     evaluator = EvaluatorHoldout(URM_val, cutoff_list=[10])
     
-    output_folder_path = "result_experiments/test/"
+    output_folder_path = "result_experiments/KNN2/"
     recommender_class = ItemKNNCFRecommender
-    n_cases = 50
+    n_cases = 150
     n_random_starts = int(n_cases * 0.3)
     metric_to_optimize = "MAP"
     cutoff_to_optimize = 10
