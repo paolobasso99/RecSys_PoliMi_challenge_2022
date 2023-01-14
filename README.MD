@@ -45,3 +45,15 @@ hybrid IALS EASEr KNN RP3 SLIM ?
 FunkSVD fail
 MultVAE too long (10hr+)
 MF_SDVpp very low score
+
+TASKS:
+- Retrain IALS
+- Retrain KNN
+- Retrain RP3
+- Retain SLIM ElasticNet
+- URM tune IALS
+- URM tune KNN
+- URM tune RP3
+- URM tune SLIMElasticNEt
+- hybrid weight tune
+- hybrid impressions tune

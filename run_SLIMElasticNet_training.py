@@ -12,12 +12,12 @@ if __name__ == "__main__":
     dataset_splitter = DatasetSplitter(dataset_loader)
     dataset_train, dataset_val = dataset_splitter.load_interactions_train_val()
     URM_generator = URMGenerator(dataset_train, dataset_val)
-    URM_train, URM_val = URM_generator.generate_explicit_URM(log_base=4, views_weight=1, details_weight=0.8)
+    URM_train, URM_val = URM_generator.generate_explicit_URM(log_base=84, views_weight=93, details_weight=71)
     URM_all = URM_train + URM_val
 
     evaluator = EvaluatorHoldout(URM_val, cutoff_list=[10])
     
-    output_folder_path = "result_experiments/SLIMElasticNet/"
+    output_folder_path = "result_experiments/SLIMElasticNet2/"
     recommender_class = SLIMElasticNetRecommender
     n_cases = 100
     n_random_starts = int(n_cases * 0.3)
