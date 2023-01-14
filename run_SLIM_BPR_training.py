@@ -47,10 +47,10 @@ if __name__ == "__main__":
     )
 
     earlystopping_keywargs = {
-        "validation_every_n": 5,
+        "validation_every_n": 20,
         "stop_on_validation": True,
         "evaluator_object": evaluator,
-        "lower_validations_allowed": 5,
+        "lower_validations_allowed": 20,
         "validation_metric": metric_to_optimize,
     }
 
