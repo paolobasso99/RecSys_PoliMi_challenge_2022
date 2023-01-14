@@ -33,7 +33,7 @@ if __name__ == "__main__":
     
     output_folder_path = "result_experiments/IALS/"
     recommender_class = IALSRecommenderImplicit
-    n_cases = 30
+    n_cases = 100
     n_random_starts = int(n_cases * 0.3)
     metric_to_optimize = "MAP"
     cutoff_to_optimize = 10
