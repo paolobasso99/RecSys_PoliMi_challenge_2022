@@ -37,7 +37,7 @@ PureSVD -0.012
 AsySVD too slow (10hr+) and FAIL
 SLIM BPR fail
 MF BPR fail
-SLIM ElasticNet -0.244 {'topK': 979, 'l1_ratio': 0.0018154743396116312, 'alpha': 0.0024650504717633574} (untuned URM)
+SLIM ElasticNet -0.0244 {'topK': 979, 'l1_ratio': 0.0018154743396116312, 'alpha': 0.0024650504717633574} (untuned URM)
 SLIM ElasticNet tuned URM -0.027 base=83.7264755594732, views_weight=93.47717420378852, details_weight=71.2945046148223 
 SLIM ElasticNet tuned URM -> retuning -0.271
 hybrid IALS EASEr KNN RP3 -0.0272
