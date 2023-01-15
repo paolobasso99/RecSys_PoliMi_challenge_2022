@@ -1,10 +1,6 @@
-import os
 import numpy as np
 import scipy.sparse as sps
 
-from skopt.space import Real
-from HyperparameterTuning.SearchBayesianSkopt import SearchBayesianSkopt
-from HyperparameterTuning.SearchAbstractClass import SearchInputRecommenderArgs
 from evaluation.evaluator import EvaluatorHoldout
 
 from data_manager import DatasetLoader, DatasetSplitter, URMGenerator, UIMGenerator
@@ -105,11 +101,11 @@ class Hybrid(BaseRecommender):
 
 if __name__ == "__main__":
     base_recommenders = {
-        "KNN": (ItemKNNCFRecommender, Path("result_experiments/KNN")),
-        "RP3beta": (RP3betaRecommender, Path("result_experiments/RP3beta")),
+        "KNN": (ItemKNNCFRecommender, Path("result_experiments/KNN2")),
+        "RP3beta": (RP3betaRecommender, Path("result_experiments/RP3beta2")),
         "IALS": (IALSRecommenderImplicit, Path("result_experiments/IALS")),
         "EASE_R": (EASE_R_Recommender, Path("result_experiments/EASE_R")),
-        "SLIMElasticNet": (SLIMElasticNetRecommender, Path("result_experiments/SLIMElasticNet"))
+        "SLIMElasticNet": (SLIMElasticNetRecommender, Path("result_experiments/SLIM_hybrid_tuning"))
     }
 
     dataset_loader = DatasetLoader()
@@ -123,7 +119,7 @@ if __name__ == "__main__":
     UIM_train, UIM_val = UIM_generator.generate()
 
     evaluator = EvaluatorHoldout(URM_val, cutoff_list=[10])
-    best_weights = load_best_hyperparameters(Path("result_experiments/Hybrid_SLIM_EASE_R_IALS_RP3_KNN"))
+    best_weights = load_best_hyperparameters(Path("result_experiments/Hybrid2"))
 
     loaded_recommenders = {}
     for recommender_id, (recommender_class, folder) in base_recommenders.items():
@@ -146,7 +142,7 @@ if __name__ == "__main__":
             
         loaded_recommenders[recommender_id] = recommender_obj
 
-    best_hyperparameters = load_best_hyperparameters(Path("result_experiments/Hybrid_impressions"))
+    best_hyperparameters = load_best_hyperparameters(Path("result_experiments/Hybrid2_impressions"))
     recommender = Hybrid(URM_train + URM_val, UIM_train + UIM_val, loaded_recommenders)
     params = {**best_hyperparameters, **best_weights}
     recommender.fit(**params)

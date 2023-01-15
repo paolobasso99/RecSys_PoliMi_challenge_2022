@@ -63,9 +63,9 @@ TASKS:
 0 -> SLIMElasticNet URM tuning with model 0.0274 (SLIMElasticNet_hybrid)
 1 -> htop
 2 -> SLIMElasticNet training with logbase=84, views_w=93, details=71 (SLIMElasticNet2), best was 0.0274
-3 -> Hybrid weights tuning (EASE_R, RP3beta2, KNN2, IALS, SLIM_hybrid_tuning)
+3 -> Hybrid impressions tuning
  
-
+hybrid without impressions 0.0277
 
 RP3beta Best MAP so far: 0.02493199185396857
 base=56.044493756679536, views_weight=70.7761787911444, details_weight=47.60536997496071

@@ -1,15 +1,14 @@
 [tool.poetry]
-name = "recsys-polimi-challenge-2020"
+name = "recsys-polimi-challenge-2022"
 version = "0.1.0"
 description = "2022 challenge of the Recommender Systems course at Politecnico di Milano"
-authors = ["Paolo Basso <bassopaolo99@gmail.com>"]
+authors = ["Paolo Basso"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "recsys_polimi_challenge_2020"}]
 
 [tool.poetry.dependencies]
 python = "~3.8.10"
-numpy = "^1.23.5"
+numpy = "1.23.5"
 scipy = "^1.9.3"
 pandas = "^1.5.2"
 matplotlib = "^3.6.2"

@@ -93,7 +93,7 @@ class Hybrid(BaseRecommender):
         result = result.astype(np.float64)
         arr_impressions_discounting_scores: np.ndarray = np.asarray(
         (
-            1 + self.UIM_scores[user_id_array, :].toarray()
+            self.UIM_scores[user_id_array, :].toarray()
         )
         ).astype(np.float64)
 
@@ -104,15 +104,15 @@ class Hybrid(BaseRecommender):
 
 if __name__ == "__main__":
     base_recommenders = {
-        "KNN": (ItemKNNCFRecommender, Path("result_experiments/KNN")),
-        "RP3beta": (RP3betaRecommender, Path("result_experiments/RP3beta")),
+        "KNN": (ItemKNNCFRecommender, Path("result_experiments/KNN2")),
+        "RP3beta": (RP3betaRecommender, Path("result_experiments/RP3beta2")),
         "IALS": (IALSRecommenderImplicit, Path("result_experiments/IALS")),
         "EASE_R": (EASE_R_Recommender, Path("result_experiments/EASE_R")),
-        "SLIMElasticNet": (SLIMElasticNetRecommender, Path("result_experiments/SLIMElasticNet"))
+        "SLIMElasticNet": (SLIMElasticNetRecommender, Path("result_experiments/SLIM_hybrid_tuning"))
     }
     hyperparameters_range_dictionary = {
-        "alpha": Real(-3, -0.001),
-        "beta": Real(-2, 2)
+        "alpha": Real(-4, 1),
+        "beta": Real(-4, 4)
     }
 
     dataset_loader = DatasetLoader()
@@ -126,7 +126,7 @@ if __name__ == "__main__":
     UIM_train, UIM_val = UIM_generator.generate()
 
     evaluator = EvaluatorHoldout(URM_val, cutoff_list=[10])
-    best_weights = load_best_hyperparameters(Path("result_experiments/Hybrid6138"))
+    best_weights = load_best_hyperparameters(Path("result_experiments/Hybrid2"))
 
     loaded_recommenders = {}
     for recommender_id, (recommender_class, folder) in base_recommenders.items():
@@ -148,9 +148,9 @@ if __name__ == "__main__":
             
         loaded_recommenders[recommender_id] = recommender_obj
 
-    output_folder_path = "result_experiments/Hybrid_impressions/"
+    output_folder_path = "result_experiments/Hybrid2_impressions/"
     recommender_class = Hybrid
-    n_cases = 100
+    n_cases = 200
     n_random_starts = int(n_cases * 0.3)
     metric_to_optimize = "MAP"
     cutoff_to_optimize = 10

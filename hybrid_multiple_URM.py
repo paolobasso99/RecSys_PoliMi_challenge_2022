@@ -60,7 +60,7 @@ if __name__ == "__main__":
         "RP3beta": (RP3betaRecommender, Path("result_experiments/RP3beta2")),
         "IALS": (IALSRecommenderImplicit, Path("result_experiments/IALS")),
         "EASE_R": (EASE_R_Recommender, Path("result_experiments/EASE_R")),
-        "SLIMElasticNet": (SLIMElasticNetRecommender, Path("result_experiments/SLIMElasticNet_hybrid_tuning"))
+        "SLIMElasticNet": (SLIMElasticNetRecommender, Path("result_experiments/SLIM_hybrid_tuning"))
     }
 
     hyperparameters_range_dictionary = {
