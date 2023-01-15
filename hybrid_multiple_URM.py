@@ -56,11 +56,11 @@ class Hybrid(BaseRecommender):
 
 if __name__ == "__main__":
     base_recommenders = {
-        "KNN": (ItemKNNCFRecommender, Path("result_experiments/KNN")),
-        "RP3beta": (RP3betaRecommender, Path("result_experiments/RP3beta")),
+        "KNN": (ItemKNNCFRecommender, Path("result_experiments/KNN2")),
+        "RP3beta": (RP3betaRecommender, Path("result_experiments/RP3beta2")),
         "IALS": (IALSRecommenderImplicit, Path("result_experiments/IALS")),
         "EASE_R": (EASE_R_Recommender, Path("result_experiments/EASE_R")),
-        "SLIMElasticNet": (SLIMElasticNetRecommender, Path("result_experiments/SLIMElasticNet"))
+        "SLIMElasticNet": (SLIMElasticNetRecommender, Path("result_experiments/SLIMElasticNet_hybrid_tuning"))
     }
 
     hyperparameters_range_dictionary = {
@@ -98,9 +98,9 @@ if __name__ == "__main__":
             
         loaded_recommenders[recommender_id] = recommender_obj
 
-    output_folder_path = "result_experiments/Hybrid/"
+    output_folder_path = "result_experiments/Hybrid2/"
     recommender_class = Hybrid
-    n_cases = 30
+    n_cases = 100
     n_random_starts = int(n_cases * 0.3)
     metric_to_optimize = "MAP"
     cutoff_to_optimize = 10
