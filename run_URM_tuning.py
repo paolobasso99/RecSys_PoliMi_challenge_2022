@@ -1,13 +1,13 @@
 import scipy.sparse as sps
-from Recommenders.SLIM.SLIMElasticNetRecommender import SLIMElasticNetRecommender
 from utils.URM_tuner import URM_tuner
+from Recommenders.SLIM.SLIMElasticNetRecommender import SLIMElasticNetRecommender
 from retrain_with_tuned_URM import retrain_with_tuned_URM
 from pathlib import Path
 from data_manager import DatasetLoader, DatasetSplitter, URMGenerator
 
 if __name__ == "__main__":
-    recommender_class = SLIMElasticNetRecommender
-    model_folder = Path("result_experiments/SLIMElasticNet/")
+    recommender_class = SLIMElasticNetRecommender 
+    model_folder = Path("result_experiments/SLIMElasticNet_hybrid/")
     N = 100
     run_tuner = True
     
