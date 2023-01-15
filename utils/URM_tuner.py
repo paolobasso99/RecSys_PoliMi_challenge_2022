@@ -22,8 +22,8 @@ def URM_tuner(N, recommender_class: BaseRecommender, model_folder: Path):
     for i in range(N):
         print(f"\nIter {i}")
         random_base = np.random.uniform(2,100)
-        random_views_weight = np.random.uniform(0,100)
         random_details_weight = np.random.uniform(0,100)
+        random_views_weight = np.random.uniform(random_details_weight,100)
         print(f"base={random_base}, views_weight={random_views_weight}, details_weight={random_details_weight}")
 
         URM_train, URM_val = URM_generator.generate_explicit_URM(
