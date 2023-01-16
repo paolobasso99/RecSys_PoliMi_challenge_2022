@@ -32,7 +32,7 @@ The main body of the recommender is a linear hybrid which composes the item weig
 The key point is that **each base recommender uses a different tuned URM**. The URM are composed taking into account the number of views and the number of "opening the details page" each user-item pair has, using the following formula:
 $$URM[user, item] = \log_b{(w_{views} \times n_{views} + w_{details} \times n_{details} + 1)}$$
 
-Where the weights $w_{views}$ and $w_{details}$ are fund by hyperparameters tuning. To do this the base recommenders are first trained on a default URM which uses $\log_2{(1 \times n_{views} + 0.8 \times n_{details} + 1)}$ and then the best model is tested against different values of $w_{views}$ and $w_{details}$ to find the best URM for that specific model. I have used the $log()$ function because it follows the behavior that the first interactions with an item are more important.
+Where the weights $w_{views}$ and $w_{details}$ are fund by hyperparameters tuning. To do this the base recommenders are first tuned on a default URM which uses $\log_2{(1 \times n_{views} + 0.8 \times n_{details} + 1)}$ and then the best model is tested against different values of $w_{views}$ and $w_{details}$ to find the best URM for that specific model. I have used the $log()$ function because it follows the behavior that the first interactions with an item are more important.
 
 Once the best URMs have been found the models are composed in a linear hybrid and their weights found by hyperparameters tuning.
 
