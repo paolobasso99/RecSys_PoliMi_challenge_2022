@@ -12,7 +12,7 @@ def create_submission(
     data_path: Path = Path("data"),
     output_path: Path = Path("submissions"),
 ):
-    """Create submission for a recommender.
+    """Create a submission for a recommender.
 
     Args:
         rec (BaseRecommender): The recommender.
@@ -33,8 +33,8 @@ def create_submission(
 
     target_users = pd.read_csv(target_user_file, dtype={0: int})["user_id"].values
 
-    print("Generating recomendations...")
-    recomendations = rec.recommend(target_users, cutoff=10)
+    print("Generating recommendations...")
+    recommendations = rec.recommend(target_users, cutoff=10)
 
     now: str = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
     output_file_name = f"{rec.RECOMMENDER_NAME}-{now}.csv"
@@ -47,6 +47,6 @@ def create_submission(
             f.write(
                 str(target_users[i])
                 + ","
-                + " ".join(str(x) for x in recomendations[i])
+                + " ".join(str(x) for x in recommendations[i])
                 + "\n"
             )

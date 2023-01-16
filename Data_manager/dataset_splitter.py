@@ -38,9 +38,13 @@ class DatasetSplitter(object):
         return interactions_train, interactions_val
 
     def load_impressions_train_val(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
-        dataset_train = pd.read_csv(self.impressions_train_path)
-        dataset_val = pd.read_csv(self.impressions_val_path)
-        return dataset_train, dataset_val
+        if not os.path.isfile(self.impressions_train_path) or not os.path.isfile(
+            self.impressions_val_path
+        ):
+        else:
+            dataset_train = pd.read_csv(self.impressions_train_path)
+            dataset_val = pd.read_csv(self.impressions_val_path)
+            return dataset_train, dataset_val
 
     def load_interactions_train_val(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
         if not os.path.isfile(self.interactions_train_path) or not os.path.isfile(

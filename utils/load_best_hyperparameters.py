@@ -4,6 +4,17 @@ from pathlib import Path
 from Recommenders.DataIO import DataIO
 
 def load_best_hyperparameters(folder: Path):
+    """Load the best hyperparameters from a folder.
+
+    Args:
+        folder (Path): The folder Path object.
+
+    Raises:
+        RuntimeError: If no metadata file is found in the folder.
+
+    Returns:
+        Dict[str, Any]: the hyperparameters.
+    """
     print(f"Loading best hyperparameters from {str(folder)}")
     metadata_file: str = None
     for f in folder.iterdir():
