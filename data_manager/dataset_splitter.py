@@ -41,6 +41,7 @@ class DatasetSplitter(object):
         if not os.path.isfile(self.impressions_train_path) or not os.path.isfile(
             self.impressions_val_path
         ):
+            raise NotImplementedError("Generation of the impressions' splits is not implemented. See split_impressions.ipynb")
         else:
             dataset_train = pd.read_csv(self.impressions_train_path)
             dataset_val = pd.read_csv(self.impressions_val_path)

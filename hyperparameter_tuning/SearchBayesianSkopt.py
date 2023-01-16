@@ -13,7 +13,7 @@ import time, os
 from skopt.space import Real, Integer, Categorical
 from utils.seconds_to_biggest_unit import seconds_to_biggest_unit
 
-from HyperparameterTuning.SearchAbstractClass import SearchAbstractClass
+from hyperparameter_tuning.SearchAbstractClass import SearchAbstractClass
 import traceback
 
 def _extend_dataframe(initial_dataframe, new_rows):

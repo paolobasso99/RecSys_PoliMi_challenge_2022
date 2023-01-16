@@ -36,7 +36,7 @@ Where the weights $w_{views}$ and $w_{details}$ are fund by hyperparameters tuni
 
 Once the best URMs have been found the models are composed in a linear hybrid and their weights found by hyperparameters tuning.
 
-The last step is to include impressions. This is done using the [impression discounting](https://dl.acm.org/doi/10.1145/2623330.2623356) technique in which each item which was recommended but not chosen by the user is penalized; this has been implemented multiplying the score for the exponential of the impressions:
+The last step is to include impressions. This is done using the [impression discounting](https://dl.acm.org/doi/10.1145/2623330.2623356) technique in which each item which was recommended but not chosen by the user is penalized; this has been implemented multiplying the score by the exponential of the impressions:
 $$new = old * e^{\alpha*k+\beta}$$
 Where $k$ is the number of impressions while $\alpha$ and $\beta$ are found with hyperparameters tuning. Note that $\alpha < 0$ which means that the score of an item gets exponentially smaller with the increasing of the impressions.
 
@@ -52,10 +52,14 @@ Where $k$ is the number of impressions while $\alpha$ and $\beta$ are found with
 
 ### Train and tune
 To train and tune the recommender the following file have to be run sequentially:
-- `1_tune_base_recommenders.py`: trains and tune the base recommenders
-- `2_tune_URM.py`: tune the URM of each recommender
+- `1_tune_base_recommender_{RECOMMENDER_NAME}.py`: trains and tune the base recommenders
+- `2_tune_URM_{RECOMMENDER_NAME}.py`: tune the URM of each recommender
 - `3_tune_linear_hybrid.py`: tune the linear hybrid of the base recommenders
-- `4_tune_impression_discounting.py`: the the parameters of the impression discounting step
+- `4_tune_impression_discounting.py`: tune the parameters of the impression discounting step
+- `5_train_final_model_all_data.py`: train the final model with all the data and create submission
+
+## Tuning
+The hyperparameters tuning was done using a CCX31 [Hetzner](https://www.hetzner.com/cloud) cloud instance which has 8 dedicated vCPU and 32 GB of RAM.
 
 ## Credits
 The code in this repository is inspired by [MaurizioFD/RecSys_Course_AT_PoliMi](https://github.com/MaurizioFD/RecSys_Course_AT_PoliMi), a repository used during the Recommender Systems course at Politecnico di Milano.
