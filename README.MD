@@ -37,7 +37,7 @@ Where the weights $w_{views}$ and $w_{details}$ are fund by hyperparameters tuni
 Once the best URMs have been found the models are composed in a linear hybrid and their weights found by hyperparameters tuning.
 
 The last step is to include impressions. This is done using the [impression discounting](https://dl.acm.org/doi/10.1145/2623330.2623356) technique in which each item which was recommended but not chosen by the user is penalized; this has been implemented multiplying the score for the exponential of the impressions:
-$$new\_score = old\_score * e^{\alpha*k+\beta}$$
+$$new = old * e^{\alpha*k+\beta}$$
 Where $k$ is the number of impressions while $\alpha$ and $\beta$ are found with hyperparameters tuning. Note that $\alpha < 0$ which means that the score of an item gets exponentially smaller with the increasing of the impressions.
 
 ## Run this code
